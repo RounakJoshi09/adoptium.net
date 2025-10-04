@@ -98,7 +98,7 @@ export default async function RootLayout({
         />
         <Script
           src="//www.eclipse.org/eclipse.org-common/themes/solstice/public/javascript/vendor/cookieconsent/default.min.js"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
         />
         {/* End of Eclipse Foundation Cookie Consent Banner */}
       </head>

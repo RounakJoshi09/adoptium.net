@@ -164,6 +164,14 @@ exports[`Footer component > renders correctly 1`] = `
                   Legal Resources
                 </a>
               </li>
+              <li>
+                <a
+                  class="toolbar-manage-cookies text-white text-base font-normal leading-6 transition hover:opacity-75 dark:text-gray-200"
+                  href="#"
+                >
+                  Manage Cookies
+                </a>
+              </li>
             </ul>
           </div>
           <div>

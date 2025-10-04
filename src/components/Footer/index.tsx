@@ -22,6 +22,7 @@ interface FooterData {
       key: string
       defaultText: string
     }
+    isCookieManagement?: boolean
   }>
 }
 
@@ -97,6 +98,11 @@ const footerData: FooterData[] = [
       {
         text: { key: "footer.legal.resources", defaultText: "Legal Resources" },
         url: "https://www.eclipse.org/legal/",
+      },
+      {
+        text: { key: "footer.manage.cookies", defaultText: "Manage Cookies" },
+        url: "#",
+        isCookieManagement: true,
       },
     ],
   },
@@ -213,7 +219,14 @@ const MobileFooterSection: React.FC<{ section: FooterData }> = ({ section }) => 
               const isInternalLink = !/^https?:\/\//.test(link.url)
               return (
                 <li key={linkIndex}>
-                  {isInternalLink ? (
+                  {link.isCookieManagement ? (
+                    <a
+                      href="#"
+                      className="toolbar-manage-cookies text-white text-base font-normal leading-6 transition hover:opacity-75"
+                    >
+                      {link.text.defaultText}
+                    </a>
+                  ) : isInternalLink ? (
                     <Link
                       href={link.url}
                       className="text-white text-base font-normal leading-6 transition hover:opacity-75"
@@ -270,7 +283,14 @@ const Footer: React.FC = () => {
 
                     return (
                       <li key={linkIndex}>
-                        {isInternalLink ? (
+                        {link.isCookieManagement ? (
+                          <a
+                            href="#"
+                            className="toolbar-manage-cookies text-white text-base font-normal leading-6 transition hover:opacity-75 dark:text-gray-200"
+                          >
+                            {link.text.defaultText}
+                          </a>
+                        ) : isInternalLink ? (
                           <Link
                             href={link.url}
                             className="text-white text-base font-normal leading-6 transition hover:opacity-75 dark:text-gray-200"
