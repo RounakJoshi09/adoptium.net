@@ -4,7 +4,6 @@ import '@fortawesome/fontawesome-free/css/v4-shims.min.css'
 import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
 import Script from 'next/script'
-import { GoogleTagManager } from '@next/third-parties/google'
 import { getLocale } from 'next-intl/server'
 import { Organization, WithContext } from 'schema-dts'
 import { sanitizeObject } from '@/utils/sanitize'
@@ -79,17 +78,7 @@ export default async function RootLayout({
       <head>
         <link rel="sitemap" type="application/xml" href="/sitemap.xml"></link>
         <link rel="alternate" type="application/rss+xml" title="Adoptium Blog" href="/rss.xml"></link>
-        <GoogleTagManager gtmId="GTM-5WLCZXC" />
         {/* Eclipse Foundation Cookie Consent Banner */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
-          {`
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-5WLCZXC');
-          `}
-        </Script>
         {/* eslint-disable-next-line @next/next/no-css-tags */}
         <link
           rel="stylesheet"
@@ -101,17 +90,18 @@ export default async function RootLayout({
           strategy="beforeInteractive"
         />
         {/* End of Eclipse Foundation Cookie Consent Banner */}
+
+        {/* Google Tag Manager gated by cookie consent */}
+        {/* Consent Mode defaults (denied) before any scripts */}
+        <Script src="/scripts/consent-defaults.js" strategy="beforeInteractive" />
+        {/* GTM gated load + event-driven revoke handling */}
+        <Script
+          src="/scripts/consent-gtm-gate.js"
+          strategy="afterInteractive"
+          data-gtm-id={process.env.NEXT_PUBLIC_GTM_ID ?? 'GTM-5WLCZXC'}
+        />
       </head>
       <body className={inter.className}>
-        {/* Google Tag Manager (noscript) - used for people who have JavaScript disabled */}
-        <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-5WLCZXC"
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript>
         <script
           type="application/ld+json"
           suppressHydrationWarning
